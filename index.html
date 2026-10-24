@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Name | Construction Virtual Assistant</title>
+<meta name="description" content="Virtual assistant for contractors and construction teams. Project admin, scheduling, documents, and client communication.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E3D8CB;        /* warm mocha sand */
+  --surface:#F2EBE2;   /* soft oat panels */
+  --deep:#3B2D26;      /* espresso, for contact + footer */
+  --line:#CDBFAF;
+  --ink:#33271F;
+  --muted:#6B5B50;
+  --gold:#A67C52;      /* bronze accent */
+  --gold-soft:#7A5733; /* darker bronze for small text */
+  --steel:#8A5A3B;     /* walnut, links */
+  --head:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"Figtree","Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased}
+a{color:var(--steel)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.wrap{max-width:1000px;margin:0 auto;padding:0 24px}
+
+/* nav */
+nav{display:flex;justify-content:space-between;align-items:center;padding:28px 0}
+nav .logo{font-family:var(--head);font-weight:700;font-size:1.1rem;color:var(--ink);text-decoration:none}
+nav ul{display:flex;gap:28px;list-style:none}
+nav ul a{color:var(--muted);text-decoration:none;font-weight:500;font-size:.95rem}
+nav ul a:hover{color:var(--gold-soft)}
+
+/* hero */
+.hero{position:relative;padding-bottom:88px;background-image:
+  linear-gradient(var(--line) 1px,transparent 1px),
+  linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:44px 44px;background-position:-1px -1px}
+.hero::before{content:"";position:absolute;inset:0;background:repeating-radial-gradient(circle at 82% 45%,transparent 0 46px,rgba(166,124,82,.35) 46px 47px);-webkit-mask-image:radial-gradient(circle at 82% 45%,#000 10%,transparent 62%);mask-image:radial-gradient(circle at 82% 45%,#000 10%,transparent 62%);pointer-events:none}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 30% 40%,rgba(227,216,203,.92) 30%,rgba(227,216,203,.6));pointer-events:none}
+.hero .wrap{position:relative;z-index:1}
+.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:56px;align-items:center;padding-top:48px}
+.hero h1{font-family:var(--head);font-weight:700;font-size:clamp(2.4rem,6vw,4.2rem);line-height:1.05;letter-spacing:-.02em}
+.dim{display:block;width:min(420px,100%);height:24px;margin:28px 0 22px;color:var(--gold)}
+.dim .draw{stroke-dasharray:420;stroke-dashoffset:420;animation:draw 1.4s .2s ease-out forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.hero p{max-width:50ch;color:var(--muted);font-size:1.12rem}
+.cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:36px}
+.btn{display:inline-block;padding:13px 26px;border-radius:6px;font-weight:600;text-decoration:none;font-size:1rem;transition:background .2s,color .2s}
+.btn.primary{background:var(--deep);color:#F2EBE2}
+.btn.primary:hover{background:#5A4538}
+.btn.ghost{border:1.5px solid var(--ink);color:var(--ink)}
+.btn.ghost:hover{border-color:var(--gold);color:var(--gold-soft)}
+
+/* image boxes: shows placeholder text if the picture file is missing */
+.photo{position:relative;overflow:hidden;background:var(--surface);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.9rem;text-align:center;padding:12px}
+.photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.portrait{aspect-ratio:4/5;border-radius:10px;border:1px solid var(--line);position:relative;z-index:1}
+.portrait-wrap{position:relative;max-width:340px;justify-self:end;width:100%}
+.portrait-wrap::before{content:"";position:absolute;inset:16px -16px -16px 16px;border:2px solid var(--gold);border-radius:10px}
+
+/* sections */
+section{position:relative;padding:84px 0;border-top:1px solid var(--line);background:var(--bg);color:var(--ink)}
+section::before{content:"";position:absolute;top:-7px;left:50%;width:12px;height:12px;background:var(--bg);border:1.5px solid var(--gold);transform:translateX(-50%) rotate(45deg)}
+h2{font-family:var(--head);font-weight:700;font-size:clamp(1.7rem,3.5vw,2.3rem);letter-spacing:-.01em;line-height:1.15;margin-bottom:12px}
+h2::after{content:"";display:block;width:44px;height:3px;background:var(--gold);margin-top:14px}
+.lead{color:var(--muted);max-width:56ch;margin:20px 0 44px}
+
+.about{display:grid;grid-template-columns:1fr 1fr;gap:56px}
+.about p{color:var(--muted)}
+.about p+p{margin-top:16px}
+.facts{list-style:none;border-left:2px solid var(--line);padding-left:28px;display:grid;gap:18px;align-content:start}
+.why-title{font-family:var(--head);font-weight:700;font-size:1.35rem;color:var(--ink)}
+.facts strong{display:block;font-family:var(--head);font-size:1.05rem}
+.facts span{color:var(--muted);font-size:.95rem}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:28px}
+.card::before{content:"";position:absolute;top:10px;left:10px;width:14px;height:14px;border-top:2px solid var(--gold);border-left:2px solid var(--gold)}
+.card h3{font-family:var(--head);font-size:1.15rem;margin-bottom:8px}
+.card p{color:var(--muted);font-size:.97rem}
+
+/* projects with picture galleries */
+.projects{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:28px}
+.project{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.project .photo{aspect-ratio:16/10;border-radius:0;background:#DACCBC;cursor:zoom-in}
+.project .photo img{display:none}
+.nav{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;border:none;background:rgba(51,39,31,.72);color:#fff;font-size:1.4rem;line-height:1;cursor:pointer;z-index:2}
+.nav:hover{background:rgba(51,39,31,.95)}
+.nav.prev{left:10px}.nav.next{right:10px}
+.count{position:absolute;right:10px;bottom:10px;background:rgba(51,39,31,.72);color:#fff;font-size:.78rem;padding:2px 10px;border-radius:999px;z-index:2}
+.thumbs{display:flex;gap:8px;padding:12px 16px 0;overflow-x:auto}
+.thumbs button{flex:0 0 auto;width:56px;height:40px;padding:0;border:2px solid transparent;border-radius:4px;background:#DACCBC center/cover;cursor:pointer;opacity:.65}
+.thumbs button.on{border-color:var(--gold);opacity:1}
+.project .body{padding:18px 24px 26px}
+.project h3{font-family:var(--head);font-size:1.15rem;margin-bottom:6px}
+.project p{color:var(--muted);font-size:.96rem}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;list-style:none}
+.tags li{border:1px solid var(--line);border-radius:999px;padding:3px 12px;font-size:.82rem;color:var(--gold-soft)}
+dialog{border:none;background:transparent;padding:0;overflow:visible;max-width:96vw}
+dialog::backdrop{background:rgba(35,25,19,.9)}
+dialog img{display:block;max-width:92vw;max-height:80vh;margin:0 auto;border-radius:6px}
+dialog p{color:#E9DFD3;text-align:center;margin-top:12px;font-size:.95rem}
+dialog .x{position:fixed;top:16px;right:20px;width:40px;height:40px;border-radius:50%;border:none;background:rgba(255,255,255,.14);color:#fff;font-size:1.5rem;cursor:pointer}
+dialog .nav{position:fixed}
+dialog .nav.prev{left:16px}dialog .nav.next{right:16px}
+
+.tools{display:flex;flex-wrap:wrap;gap:10px}
+.tools li{list-style:none;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:8px 18px;font-size:.95rem;font-weight:500}
+
+.timeline{list-style:none;border-left:2px solid var(--line);margin-left:6px}
+.timeline li{position:relative;padding:0 0 36px 32px}
+.timeline li:last-child{padding-bottom:0}
+.timeline li::before{content:"";position:absolute;left:-7px;top:7px;width:12px;height:12px;background:var(--gold);border:2px solid var(--bg);border-radius:50%}
+.timeline h3{font-family:var(--head);font-size:1.15rem}
+.timeline .when{color:var(--gold-soft);font-size:.9rem;margin-bottom:6px}
+.timeline p{color:var(--muted)}
+
+.contact{background:var(--bg);color:#F1E9DF}
+.contact .lead{color:#CDBFB0}
+.contact h2::after{background:#D2AE7C}
+.contact .btn.primary{background:#D2AE7C;color:#3B2D26}
+.contact .btn.primary:hover{background:#E0C196}
+.contact a:not(.btn){color:#E3C79E}
+.contact a:focus-visible{outline-color:#D2AE7C}
+.contact .links{margin-top:28px;display:flex;flex-wrap:wrap;gap:24px}
+footer{background:var(--deep);padding:28px 0;color:#BBA996;font-size:.9rem;text-align:center;border-top:1px solid #54443A}
+
+/* each section has its own tone and layout; shared fonts, bronze details and diamonds tie them together */
+#about{--bg:#F2EBE2;--surface:#E7DCCD;--line:#D6C8B6;--ink:#33271F;--muted:#6B5B50;--gold:#A67C52;--gold-soft:#7A5733;--steel:#8A5A3B}
+#about .facts{border-left:none;padding:30px 32px;background:var(--surface);border-radius:10px;border-top:3px solid var(--gold)}
+
+#services{--bg:#D9C6AB;--surface:#F3ECE1;--line:#C3AD8E;--ink:#2F2319;--muted:#5C4A39;--gold:#8F6A3F;--gold-soft:#6B4C25;--steel:#6B4C25}
+
+#projects{--bg:#3B2D26;--surface:#4A3A31;--line:#5E4A3E;--ink:#F1E9DF;--muted:#CDBFB0;--gold:#D2AE7C;--gold-soft:#E0C196;--steel:#E3C79E}
+#projects .photo{background:#33271F;color:#CDBFB0}
+#projects .thumbs button{background-color:#33271F}
+
+#tools{--bg:#DDC8BE;--surface:#F6EDE7;--line:#C9AFA3;--ink:#33231D;--muted:#6A5148;--gold:#9A6B55;--gold-soft:#7A4F3C;--steel:#7A4F3C;
+  text-align:center;background-image:radial-gradient(var(--line) 1.3px,transparent 1.4px);background-size:24px 24px}
+#tools h2::after{margin-left:auto;margin-right:auto}
+#tools .lead{margin-left:auto;margin-right:auto}
+#tools .tools{justify-content:center}
+#tools .tools li{border-radius:6px;border-left:3px solid var(--gold)}
+
+#experience{--bg:#EBE0CF;--surface:#F6EFE3;--line:#C9B89F;--ink:#33271F;--muted:#6B5B50;--gold:#A67C52;--gold-soft:#7A5733;--steel:#8A5A3B}
+.exp{display:grid;grid-template-columns:.8fr 1.3fr;gap:64px}
+.exp-head{position:sticky;top:32px;align-self:start}
+.exp-head .lead{margin-bottom:0}
+#experience .timeline{border-left-color:var(--gold)}
+#experience .timeline li::before{border-color:var(--bg)}
+
+#contact{--bg:#2C211B;--line:#4A3A31}
+.contact .wrap{text-align:center}
+.contact h2::after{margin-left:auto;margin-right:auto}
+.contact .lead{margin-left:auto;margin-right:auto}
+.reach{margin-top:30px;display:grid;gap:6px;font-size:1.1rem}
+.reach a{text-decoration:none;font-weight:600}
+.reach a:hover{text-decoration:underline}
+.reach span{color:#CDBFB0;font-size:.92rem}
+
+/* small details */
+.duties{margin-top:14px;display:grid;gap:8px}
+.duties span{position:relative;padding-left:22px;color:var(--muted);font-size:.97rem}
+.duties span::before{content:"";position:absolute;left:2px;top:.6em;width:7px;height:7px;background:var(--gold);transform:rotate(45deg)}
+
+#certifications{--bg:#CDBBA6;--surface:#F6EFE5;--line:#B8A38B;--ink:#2F2319;--muted:#5C4A39;--gold:#8A6238;--gold-soft:#6B4C25;--steel:#6B4C25}
+.certs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:18px}
+.cert{display:flex;gap:18px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px 22px}
+.cert .badge{flex:0 0 52px;height:52px;border-radius:50%;background:var(--gold);color:#F6EFE5;display:flex;align-items:center;justify-content:center}
+.cert .badge svg{width:28px;height:28px}
+.cert h3{font-family:var(--head);font-size:1.02rem;line-height:1.3;margin-bottom:2px}
+.cert span{display:block;color:var(--muted);font-size:.9rem}
+
+@media (max-width:760px){
+  .hero-grid{grid-template-columns:1fr;gap:48px}
+  .portrait-wrap{justify-self:start;max-width:280px;margin-right:16px}
+  .about{grid-template-columns:1fr;gap:36px}
+  nav ul{gap:16px}
+  section{padding:64px 0}
+  .exp{grid-template-columns:1fr;gap:28px}
+  .exp-head{position:static}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .dim .draw{animation:none;stroke-dashoffset:0}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <nav aria-label="Main">
+      <a class="logo" href="#top">Your Name</a>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div id="top" class="hero-grid">
+      <div>
+        <h1>Your paperwork, built right.</h1>
+        <svg class="dim" viewBox="0 0 420 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <g class="draw"><path d="M1 4v16M419 4v16M1 12h418"/><path d="M1 12l8-5M1 12l8 5M419 12l-8-5M419 12l-8 5"/></g>
+        </svg>
+        <p>I’m a virtual assistant for contractors and construction teams. I handle the admin, schedules, and follow-ups, so you can stay on site.</p>
+        <div class="cta">
+          <a class="btn primary" href="#contact">Work with me</a>
+          <a class="btn ghost" href="#projects">See my projects</a>
+        </div>
+      </div>
+
+      <!-- YOUR PHOTO: save it as images/profile.jpg -->
+      <div class="portrait-wrap">
+        <div class="photo portrait">
+          Add your photo<br>images/profile.jpg
+          <img src="images/profile.jpg" alt="Portrait of Your Name" onerror="this.remove()">
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="about">
+    <div class="wrap about">
+      <div>
+        <h2>About me</h2>
+        <p style="margin-top:20px">Hi, I’m [Your Name]. I help construction businesses keep their back office as organized as their job sites.</p>
+        <p>[Write 2 to 3 sentences about your background: where you’re based, how long you’ve done admin work, and why you enjoy the construction industry.]</p>
+      </div>
+      <ul class="facts">
+        <li class="why-title">Why hire me</li>
+        <li><strong>Organized and detail-focused</strong><span>Every file, schedule, and document kept accurate and easy to find</span></li>
+        <li><strong>Understands construction work</strong><span>Comfortable with plans, permits, and site terms, so you explain less</span></li>
+        <li><strong>Reliable and responsive</strong><span>Clear updates and tasks finished on time</span></li>
+        <li><strong>Easy to work with</strong><span>I learn your tools and follow your process</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="wrap">
+      <h2>What I can take off your plate</h2>
+      <p class="lead">Pick one task or hand over the whole back office. Either way, you get dependable, organized support.</p>
+      <div class="cards">
+        <article class="card">
+          <h3>Project administration</h3>
+          <p>Permits tracking, submittals, RFIs, change orders, and daily logs kept up to date and easy to find.</p>
+        </article>
+        <article class="card">
+          <h3>Scheduling and coordination</h3>
+          <p>Site visits, inspections, subcontractor calendars, and reminders, so nothing slips.</p>
+        </article>
+        <article class="card">
+          <h3>Estimates and documents</h3>
+          <p>Quote follow-ups, bid package prep, proposals, contracts, and invoice drafting.</p>
+        </article>
+        <article class="card">
+          <h3>Client and vendor communication</h3>
+          <p>Email and phone follow-ups, status updates, and supplier orders handled in your voice.</p>
+        </article>
+        <article class="card">
+          <h3>Data entry and file organization</h3>
+          <p>Clean spreadsheets, tidy cloud folders, and consistent naming for every project.</p>
+        </article>
+        <article class="card">
+          <h3>Takeoff and plan support</h3>
+          <p>Reading plans, basic quantity takeoffs, and material lists. [Edit based on your skills.]</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="wrap">
+      <h2>Projects</h2>
+      <p class="lead">Use the arrows or the small previews to see more pictures of each project. Select a picture to enlarge it.</p>
+      <div class="projects" id="projectGrid"></div>
+    </div>
+  </section>
+
+  <dialog id="lb" aria-label="Enlarged project picture">
+    <button class="x" aria-label="Close">×</button>
+    <button class="nav prev" aria-label="Previous picture">‹</button>
+    <img alt="">
+    <button class="nav next" aria-label="Next picture">›</button>
+    <p></p>
+  </dialog>
+
+  <section id="tools">
+    <div class="wrap">
+      <h2>Tools I work with</h2>
+      <p class="lead">Already using something else? I learn new software quickly.</p>
+      <ul class="tools">
+        <li>Procore</li>
+        <li>Buildertrend</li>
+        <li>PlanSwift</li>
+        <li>Bluebeam</li>
+        <li>QuickBooks</li>
+        <li>Google Workspace</li>
+        <li>Microsoft 365</li>
+        <li>Trello / Asana</li>
+        <li>Slack / Zoom</li>
+        <li>[Add your own]</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="wrap exp">
+      <div class="exp-head">
+        <h2>Experience</h2>
+        <p class="lead">Where I’ve worked and what I handled day to day.</p>
+      </div>
+      <ol class="timeline">
+        <li>
+          <h3>[Job title], [Company]</h3>
+          <div class="when">[Month Year] to [Month Year]</div>
+          <p>[One or two lines about your role and who you supported.]</p>
+          <div class="duties">
+            <span>[A task you handled, such as managing schedules or invoices]</span>
+            <span>[Another task or tool you used every day]</span>
+            <span>[A result, such as “Cut invoice turnaround from 5 days to 2”]</span>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="certifications">
+    <div class="wrap">
+      <h2>Certifications</h2>
+      <p class="lead">Training and credentials that back up my work.</p>
+      <div class="certs">
+        <article class="cert">
+          <div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+          <div>
+            <h3>[Certification name]</h3>
+            <span>[Issuer]</span>
+            <span>[Month Year]</span>
+          </div>
+        </article>
+        <article class="cert">
+          <div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+          <div>
+            <h3>[Certification name]</h3>
+            <span>[Issuer]</span>
+            <span>[Month Year]</span>
+          </div>
+        </article>
+        <article class="cert">
+          <div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+          <div>
+            <h3>[Certification name]</h3>
+            <span>[Issuer]</span>
+            <span>[Month Year]</span>
+          </div>
+        </article>
+        <article class="cert">
+          <div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+          <div>
+            <h3>[Certification name]</h3>
+            <span>[Issuer]</span>
+            <span>[Month Year]</span>
+          </div>
+        </article>
+        <article class="cert">
+          <div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+          <div>
+            <h3>[Certification name]</h3>
+            <span>[Issuer]</span>
+            <span>[Month Year]</span>
+          </div>
+        </article>
+        <article class="cert">
+          <div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+          <div>
+            <h3>[Certification name]</h3>
+            <span>[Issuer]</span>
+            <span>[Month Year]</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <h2>Let’s talk about your projects</h2>
+      <p class="lead">Tell me what’s piling up on your desk. I’ll reply with how I can help and a clear quote.</p>
+      <a class="btn primary" href="mailto:sjbcudia01@gmail.com?subject=Virtual%20assistant%20inquiry">Email me</a>
+      <p class="reach">
+        <a href="mailto:sjbcudia01@gmail.com">sjbcudia01@gmail.com</a>
+        <a href="tel:+639498677305">0949 867 7305</a>
+        <span>WhatsApp, Viber and Telegram</span>
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">© 2026 Your Name</div>
+</footer>
+
+<script>
+/* ====== EDIT YOUR PROJECTS HERE ======
+   Each project has a title, text, tags, and a list of pictures.
+   Add or remove picture paths freely. Upload the files to the "images" folder. */
+const PROJECTS=[
+  {title:"[Project 1 name]",text:"[One or two sentences: the problem, what you did, and the result.]",tags:["Tool","Skill"],
+   images:["images/project1-1.jpg","images/project1-2.jpg","images/project1-3.jpg"]},
+  {title:"[Project 2 name]",text:"[One or two sentences: the problem, what you did, and the result.]",tags:["Tool","Skill"],
+   images:["images/project2-1.jpg","images/project2-2.jpg","images/project2-3.jpg"]},
+  {title:"[Project 3 name]",text:"[One or two sentences: the problem, what you did, and the result.]",tags:["Tool","Skill"],
+   images:["images/project3-1.jpg","images/project3-2.jpg","images/project3-3.jpg"]},
+  {title:"[Project 4 name]",text:"[One or two sentences: the problem, what you did, and the result.]",tags:["Tool","Skill"],
+   images:["images/project4-1.jpg","images/project4-2.jpg","images/project4-3.jpg"]},
+  {title:"[Project 5 name]",text:"[One or two sentences: the problem, what you did, and the result.]",tags:["Tool","Skill"],
+   images:["images/project5-1.jpg","images/project5-2.jpg","images/project5-3.jpg"]},
+  {title:"[Project 6 name]",text:"[One or two sentences: the problem, what you did, and the result.]",tags:["Tool","Skill"],
+   images:["images/project6-1.jpg","images/project6-2.jpg","images/project6-3.jpg"]},
+  {title:"[Project 7 name]",text:"[One or two sentences: the problem, what you did, and the result.]",tags:["Tool","Skill"],
+   images:["images/project7-1.jpg","images/project7-2.jpg","images/project7-3.jpg"]},
+  {title:"[Project 8 name]",text:"[One or two sentences: the problem, what you did, and the result.]",tags:["Tool","Skill"],
+   images:["images/project8-1.jpg","images/project8-2.jpg","images/project8-3.jpg"]},
+];
+
+const grid=document.getElementById('projectGrid');
+const lb=document.getElementById('lb'),lbImg=lb.querySelector('img'),lbCap=lb.querySelector('p');
+let cur=null;
+const wrap=(p,i,d)=>(i+d+p.images.length)%p.images.length;
+function lbShow(){const{p,i}=cur;lbImg.src=p.images[i];lbImg.alt=p.title;lbCap.textContent=p.title+' ('+(i+1)+' of '+p.images.length+')';}
+function lbMove(d){cur.i=wrap(cur.p,cur.i,d);cur.sync();lbShow();}
+
+PROJECTS.forEach(p=>{
+  let i=0;
+  const el=document.createElement('article');el.className='project';
+  el.innerHTML='<div class="photo"><span class="ph"></span><img alt="">'+
+    '<button class="nav prev" aria-label="Previous picture">‹</button>'+
+    '<button class="nav next" aria-label="Next picture">›</button><span class="count"></span></div>'+
+    '<div class="thumbs"></div><div class="body"><h3></h3><p></p><ul class="tags"></ul></div>';
+  const q=s=>el.querySelector(s),img=q('img'),ph=q('.ph'),count=q('.count'),thumbs=q('.thumbs');
+  q('h3').textContent=p.title;q('p').textContent=p.text;
+  p.tags.forEach(t=>{const li=document.createElement('li');li.textContent=t;q('.tags').appendChild(li);});
+  const many=p.images.length>1;
+  if(!many){q('.prev').hidden=q('.next').hidden=count.hidden=thumbs.hidden=true;}
+  function show(){
+    img.style.display='none';
+    img.onload=()=>img.style.display='block';
+    img.onerror=()=>img.style.display='none';
+    img.src=p.images[i];img.alt=p.title+', picture '+(i+1);
+    ph.textContent='Add picture: '+p.images[i];
+    count.textContent=(i+1)+' / '+p.images.length;
+    [...thumbs.children].forEach((b,k)=>b.classList.toggle('on',k===i));
+  }
+  p.images.forEach((src,k)=>{
+    const b=document.createElement('button');
+    b.style.backgroundImage='url("'+encodeURI(src)+'")';
+    b.setAttribute('aria-label','Show picture '+(k+1));
+    b.onclick=()=>{i=k;show();};thumbs.appendChild(b);
+  });
+  q('.prev').onclick=e=>{e.stopPropagation();i=wrap(p,i,-1);show();};
+  q('.next').onclick=e=>{e.stopPropagation();i=wrap(p,i,1);show();};
+  q('.photo').onclick=()=>{
+    if(img.style.display!=='block')return;
+    cur={p,get i(){return i},set i(v){i=v},sync:show};lbShow();lb.showModal();
+  };
+  show();grid.appendChild(el);
+});
+
+lb.querySelector('.x').onclick=()=>lb.close();
+lb.querySelector('.prev').onclick=()=>lbMove(-1);
+lb.querySelector('.next').onclick=()=>lbMove(1);
+lb.addEventListener('click',e=>{if(e.target===lb)lb.close();});
+lb.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')lbMove(-1);if(e.key==='ArrowRight')lbMove(1);});
+</script>
+</body>
+</html>
